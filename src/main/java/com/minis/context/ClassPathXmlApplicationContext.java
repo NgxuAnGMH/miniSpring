@@ -25,6 +25,10 @@ import com.minis.core.Resource;
  * @see BeanFactory
  * 应用上下文，虽然也是继承BeanFactory，但其本身只负责在构造函数中，启动初始化，整合容器的启动过程，
  * 调用<u>BeanDefinitionReader</u>，之后绑定一个业务无关的BeanFactory成员，通过委托的方式，让其代劳。
+ *
+ * ApplicationContext有点像策略模式，不过其本身不仅持有BeanFactory，还继承自BeanFactory，
+ * 结果是通过委托代理回给BeanFactory的方式，实现继承方法的重写。
+ * 意思是其成员变量BeanFactory，就像策略一样，可以根据业务需要随时替换。
  */
 public class ClassPathXmlApplicationContext implements BeanFactory{
 	BeanFactory beanFactory;
