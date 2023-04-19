@@ -2,8 +2,8 @@ package com.minis.beans;
 
 
 public class BeanDefinition {
-    private String id;
-    private String className;
+    private String id;          // 接口引用，对象的名称
+    private String className;   // 具体实现，生成单例的模板
     
     public String getId() {
         return id;

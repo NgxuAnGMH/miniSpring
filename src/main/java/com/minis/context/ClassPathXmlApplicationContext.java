@@ -18,6 +18,14 @@ import com.minis.beans.XmlBeanDefinitionReader;
 import com.minis.core.ClassPathXmlResource;
 import com.minis.core.Resource;
 
+/**
+ * @author: cmx
+ * @date: 2023/04/19
+ * @classname: ClassPathXmlApplicationContext
+ * @see BeanFactory
+ * 应用上下文，虽然也是继承BeanFactory，但其本身只负责在构造函数中，启动初始化，整合容器的启动过程，
+ * 调用<u>BeanDefinitionReader</u>，之后绑定一个业务无关的BeanFactory成员，通过委托的方式，让其代劳。
+ */
 public class ClassPathXmlApplicationContext implements BeanFactory{
 	BeanFactory beanFactory;
 

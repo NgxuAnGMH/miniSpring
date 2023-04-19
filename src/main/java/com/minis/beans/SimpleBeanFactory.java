@@ -5,6 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author: cmx
+ * @date: 2023/04/19
+ * @classname: SimpleBeanFactory
+ * @see BeanFactory
+ * 不负责区分具体 Resource，只负责 名称注册表、定义注册表、单例容器
+ */
 public class SimpleBeanFactory implements BeanFactory{
     private List<BeanDefinition> beanDefinitions=new ArrayList();
     private List<String> beanNames=new ArrayList();
