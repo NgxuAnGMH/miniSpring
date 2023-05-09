@@ -4,7 +4,9 @@ package com.minis.beans;
 public class BeanDefinition {
     private String id;          // 接口引用，对象的名称
     private String className;   // 具体实现，生成单例的模板
-    
+
+    // 以下都是 GET SET 构造器
+
     public String getId() {
         return id;
     }

@@ -21,10 +21,10 @@ public class ClassPathXmlResource implements Resource {
 		// 猜测：触发启动这个类，加载类信息，并使用其方法绑定资源
         URL xmlPath=this.getClass().getClassLoader().getResource(fileName);
 		//将配置文件装载进来，生成一个迭代器，可以用于遍历
-        try {
-			this.document = saxReader.read(xmlPath);
-			this.rootElement=document.getRootElement();
-			this.elementIterator=this.rootElement.elementIterator();
+        try { // 操作 XML 文件格式都是 dom4j 帮我们做的。
+			this.document = saxReader.read(xmlPath); 	// 读取器
+			this.rootElement=document.getRootElement();	// 获得根节点
+			this.elementIterator=this.rootElement.elementIterator(); // 从根节点开始的迭代器。用于遍历。
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}		
