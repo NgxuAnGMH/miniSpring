@@ -37,8 +37,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory{
     public ClassPathXmlApplicationContext(String fileName){
     	Resource res = new ClassPathXmlResource(fileName);
     	BeanFactory bf = new SimpleBeanFactory();
-		// 这里体现了是XML资源
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);//传参bf
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
         reader.loadBeanDefinitions(res);
         this.beanFactory = bf;
     }
