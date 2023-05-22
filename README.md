@@ -27,7 +27,7 @@ Reload
 ## 设置JDK版本
 
 File -》 Project Structure
-
+q
 1. SDK：选择1.8
 2. Language Level：8
 
