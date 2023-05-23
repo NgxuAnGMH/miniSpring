@@ -32,6 +32,7 @@ import com.minis.core.Resource;
  * 意思是其成员变量BeanFactory，就像策略一样，可以根据业务需要随时替换。
  */
 public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEventPublisher{
+															// IoC2：新增实现了事件发布接口。
 	// 原来是BeanFactory beanFactory;
 	SimpleBeanFactory beanFactory;
 
