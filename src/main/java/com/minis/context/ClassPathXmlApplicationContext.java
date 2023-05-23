@@ -12,6 +12,7 @@ import org.dom4j.io.SAXReader;
 
 import com.minis.beans.BeanDefinition;
 import com.minis.beans.BeanFactory;
+import com.minis.beans.BeansException;
 import com.minis.beans.NoSuchBeanDefinitionException;
 import com.minis.beans.SimpleBeanFactory;
 import com.minis.beans.XmlBeanDefinitionReader;
@@ -30,28 +31,57 @@ import com.minis.core.Resource;
  * 结果是通过委托代理回给BeanFactory的方式，实现继承方法的重写。
  * 意思是其成员变量BeanFactory，就像策略一样，可以根据业务需要随时替换。
  */
-public class ClassPathXmlApplicationContext implements BeanFactory{
-	BeanFactory beanFactory;
+public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEventPublisher{
+	// 原来是BeanFactory beanFactory;
+	SimpleBeanFactory beanFactory;
 
 	//context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
-    public ClassPathXmlApplicationContext(String fileName){
-    	Resource res = new ClassPathXmlResource(fileName);
-    	BeanFactory bf = new SimpleBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
-        reader.loadBeanDefinitions(res);
-        this.beanFactory = bf;
-    }
+	public ClassPathXmlApplicationContext(String fileName){
+		Resource res = new ClassPathXmlResource(fileName);
+		SimpleBeanFactory bf = new SimpleBeanFactory();
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
+		reader.loadBeanDefinitions(res);
+		this.beanFactory = bf;
+	}
 
-	//context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
-	public Object getBean(String beanName) throws NoSuchBeanDefinitionException {
+	// context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
+//	@Override
+	public Object getBean(String beanName) throws BeansException {
 		return this.beanFactory.getBean(beanName);
 	}
 
-
-	public void registerBeanDefinition(BeanDefinition bd) {
-		this.beanFactory.registerBeanDefinition(bd);
-		
+//	@Override
+	public boolean containsBean(String name) {
+		return this.beanFactory.containsBean(name);
 	}
 
-    
+	//	IoC1原来是
+//	public void registerBeanDefinition(BeanDefinition bd) {
+//		this.beanFactory.registerBeanDefinition(bd);
+	public void registerBean(String beanName, Object obj) {
+		this.beanFactory.registerBean(beanName, obj);
+	}
+
+//	@Override
+	public void publishEvent(ApplicationEvent event) {
+	}
+
+//	@Override
+	public boolean isSingleton(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+//	@Override
+	public boolean isPrototype(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+//	@Override
+	public Class<?> getType(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
