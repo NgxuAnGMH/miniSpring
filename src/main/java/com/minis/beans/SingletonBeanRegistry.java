@@ -1,5 +1,8 @@
 package com.minis.beans;
 
+/**
+ * Bean可能是单例，也因此新增单例接口，方便今后对所有（模式是单例的）Bean进行管理。
+ */
 public interface SingletonBeanRegistry {
     // 单例注册
     void registerSingleton(String beanName, Object singletonObject);
