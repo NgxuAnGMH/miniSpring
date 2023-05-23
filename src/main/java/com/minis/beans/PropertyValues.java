@@ -12,7 +12,7 @@ import java.util.Set;
  * 所以我们需要完成这方面的定义工作。
  * 这里是Setter注入的属性类。
  * 这里是多个属性的集合：封装了增加、获取、判断等操作方法，<u>简化调用</u>。
- * 如此一来既给外面提供单个的参数 / 属性的对象，也提供集合对象
+ * 如此一来既给外面提供单个的参数 / 属性的对象，也提供集合对象。
  */
 public class PropertyValues {
     private final List<PropertyValue> propertyValueList;
@@ -21,6 +21,7 @@ public class PropertyValues {
         this.propertyValueList = new ArrayList<PropertyValue>(10);
     }
 
+    // 以下增删改查各项操作，注意，有时是操作一整个propertyValue对象，有时候是索引Name名称。
     public List<PropertyValue> getPropertyValueList() {
         return this.propertyValueList;
     }
