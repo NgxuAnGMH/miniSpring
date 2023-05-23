@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-<bean id="aservice" class="com.minis.test.AServiceImpl"></bean>
-<!--id：对象的名称（接口引用） || class：具体实现/生成单例的模板-->
+    <bean id="aservice" class="com.minis.test.AServiceImpl">
+        <!--id：对象的名称（接口引用） || class：具体实现/生成单例的模板-->
+        <!--type：属性类型 || name：属性名称 || value：属性赋值-->
+        <constructor-arg type="String" name="name" value="abc"/>
+        <constructor-arg type="int" name="level" value="3"/>
+        <property type="String" name="property1" value="Someone says"/>
+        <property type="String" name="property2" value="Hello World!"/>
+    </bean>
 </beans>
