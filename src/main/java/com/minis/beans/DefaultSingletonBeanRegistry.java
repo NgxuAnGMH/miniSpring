@@ -22,6 +22,10 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
 //    @Override
     public void registerSingleton(String beanName, Object singletonObject) {
+        /**
+         * 将 singletonObjects 定义为了一个 **ConcurrentHashMap**，
+         * 而且在实现 registrySingleton 时前面加了一个关键字 **synchronized**。
+         */
         synchronized (this.singletonObjects) {
             this.singletonObjects.put(beanName, singletonObject);
             this.beanNames.add(beanName);
