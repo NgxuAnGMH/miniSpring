@@ -14,7 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date: 2023/04/19
  * @classname: SimpleBeanFactory
  * @see BeanFactory
- * 不负责区分具体 Resource，只负责 名称注册表、定义注册表、单例容器
+ * 不负责区分具体 Resource，只负责 名称注册表、单例容器
+ * 实现了BeanFactory，所以是工厂
+ * 实现了BeanDefinitionRegistry，所以是仓库
+ * 继承了DefaultSingletonBeanRegistry，所以有一些默认实现
  */
 public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory,BeanDefinitionRegistry{
 	// IoC1 原来的属性成员
@@ -24,7 +27,9 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 
 
 	private Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap(256);
+	// 已实例化的单例容器
 	private List<String> beanDefinitionNames=new ArrayList();
+	// 名称注册表
 
 	public SimpleBeanFactory() {
 	}
@@ -37,12 +42,12 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 		if (singleton == null) {
 			//获取Bean的定义
 			BeanDefinition bd = beanDefinitionMap.get(beanName);
+			//并进行实例化
 			singleton=createBean(bd);
 			//注册Bean实例
 			this.registerBean(beanName, singleton);
-
 			if (bd.getInitMethodName() != null) {
-				//init method
+				//init method 待补充
 			}
 		}
 		if (singleton == null) {
@@ -71,6 +76,7 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 	public void registerBeanDefinition(String name, BeanDefinition bd) {
 		this.beanDefinitionMap.put(name,bd);
 		this.beanDefinitionNames.add(name);
+		// 要不要懒加载，不然在注册时就初始化生成实例
 		if (!bd.isLazyInit()) {
 			try {
 				getBean(name);
@@ -114,20 +120,26 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 		return this.beanDefinitionMap.get(name).getClass();
 	}
 
+	// 通过BeanDefinition实例化
 	private Object createBean(BeanDefinition bd) {
 		Class<?> clz = null;
 		Object obj = null;
 		Constructor<?> con = null;
 
+		// 先是构造器参数集合
 		try {
 			clz = Class.forName(bd.getClassName());
 
 			//handle constructor
 			ArgumentValues argumentValues = bd.getConstructorArgumentValues();
 			if (!argumentValues.isEmpty()) {
+				// 先通过构造器参数集合的size，new出需要的各类集合。
 				Class<?>[] paramTypes = new Class<?>[argumentValues.getArgumentCount()];
+				// 属性类型type：因此用Class<?>[]。
 				Object[] paramValues =   new Object[argumentValues.getArgumentCount()];
+				// 赋值value：因此用Object[]。
 				for (int i=0; i<argumentValues.getArgumentCount(); i++) {
+					// 对每个构造器参数
 					ArgumentValue argumentValue = argumentValues.getIndexedArgumentValue(i);
 					if ("String".equals(argumentValue.getType()) || "java.lang.String".equals(argumentValue.getType())) {
 						paramTypes[i] = String.class;
@@ -147,8 +159,8 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 					}
 				}
 				try {
-					con = clz.getConstructor(paramTypes);
-					obj = con.newInstance(paramValues);
+					con = clz.getConstructor(paramTypes); 	// 针对每个参数的类型Types，找到构造器
+					obj = con.newInstance(paramValues);		// 针对每个参数的赋值Value，进行实例化
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
 				} catch (SecurityException e) {
@@ -160,6 +172,7 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 				}
 			}
 			else {
+				// 如果构造器参数集合为空，直接通过clz进行实例化
 				obj = clz.newInstance();
 			}
 
@@ -171,15 +184,16 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 			e.printStackTrace();
 		}
 
-		//handle properties
+		//handle properties 再是setter注入列表
 		PropertyValues propertyValues = bd.getPropertyValues();
 		if (!propertyValues.isEmpty()) {
 			for (int i=0; i<propertyValues.size(); i++) {
+				// 对列表中的每个属性，都调用Setter方法。
 				PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
 				String pName = propertyValue.getName();
 				String pType = propertyValue.getType();
 				Object pValue = propertyValue.getValue();
-
+				// 属性类型type
 				Class<?>[] paramTypes = new Class<?>[1];
 				if ("String".equals(pType) || "java.lang.String".equals(pType)) {
 					paramTypes[0] = String.class;
@@ -193,12 +207,11 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 				else {
 					paramTypes[0] = String.class;
 				}
-
+				// 赋值value
 				Object[] paramValues =   new Object[1];
 				paramValues[0] = pValue;
-
+				// 属性名称name：通过这个找到Setter
 				String methodName = "set" + pName.substring(0,1).toUpperCase() + pName.substring(1);
-
 				Method method = null;
 				try {
 					method = clz.getMethod(methodName, paramTypes);
@@ -208,6 +221,7 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 					e.printStackTrace();
 				}
 				try {
+					// 调用对应Setter方法
 					method.invoke(obj, paramValues);
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();

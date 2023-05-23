@@ -13,11 +13,12 @@ public class BeanDefinition {
     String SCOPE_SINGLETON = "singleton";
     String SCOPE_PROTOTYPE = "prototype";
 
-    // lazyInit：表示 Bean 要不要在加载的时候初始化
+    // lazyInit：表示 Bean 要不要懒加载，不然在注册时就初始化生成实例
     private boolean lazyInit = false;
     // dependsOn：记录 Bean 之间的依赖关系
     private String[] dependsOn;
     // 属性注入的集合类：构造器注入和Setter注入，也即构造器参数和property列表
+    // 用在SimpleBeanFactory中的createBean(BeanDefinition bd)方法
     private ArgumentValues constructorArgumentValues;
     private PropertyValues propertyValues;
     // 初始化方法的声明：当一个 Bean 构造好并实例化之后是否要让框架调用初始化方法
