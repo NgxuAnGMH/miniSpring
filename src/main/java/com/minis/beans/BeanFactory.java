@@ -7,7 +7,16 @@ package com.minis.beans;
  * 不负责区分具体 Resource
  */
 public interface BeanFactory {
-	Object getBean(String beanName) throws NoSuchBeanDefinitionException;
-	void registerBeanDefinition(BeanDefinition bd);
+    Object getBean(String beanName) throws BeansException;
+					// 原来是抛出 NoSuchBeanDefinitionException
+	// void registerBeanDefinition(BeanDefinition bd); 原来IoC1的方法
+
+
+	// 所有新增改动如下
+	boolean containsBean(String name);	// 是否有这个Bean
+	// void registerBean(String beanName, Object obj);
+	boolean isSingleton(String name);	// 这个Bean是单例？
+	boolean isPrototype(String name);	// 这个Bean是原型？
+	Class<?> getType(String name);		// 获取Bean的类型。
 
 }
