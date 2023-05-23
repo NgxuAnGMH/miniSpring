@@ -27,9 +27,18 @@ Reload
 ## 设置JDK版本
 
 File -》 Project Structure
-q
 1. SDK：选择1.8
 2. Language Level：8
+3. 需要在pom.xml文件中限制版本。
+
+```xml
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+```
+
+Setting中有个Java Compiler，也需要设置。
 
 ## Run HelloWorld.java
 
