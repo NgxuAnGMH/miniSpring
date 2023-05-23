@@ -24,14 +24,14 @@ public class AServiceImpl implements AService {
 		this.property2 = property2;
 	}
 
-//	public AServiceImpl() {
-//	}
-//
-//	public AServiceImpl(String name, int level) {
-//		this.name = name;
-//		this.level = level;
-//		System.out.println(this.name + "," + this.level);
-//	}
+	public AServiceImpl() {
+	}
+
+	public AServiceImpl(String name, int level) {
+		this.name = name;
+		this.level = level;
+		System.out.println(this.name + "," + this.level);
+	}
 
 	//	@Override
 	public void sayHello() {
