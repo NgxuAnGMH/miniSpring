@@ -9,12 +9,12 @@ public class BeanDefinition {
     private String className;   // 具体实现，生成单例的模板
 
     // SCOPE：表示 bean 是单例模式还是原型模式
-    private String scope;
     String SCOPE_SINGLETON = "singleton";
     String SCOPE_PROTOTYPE = "prototype";
+    private String scope=SCOPE_SINGLETON;
 
     // lazyInit：表示 Bean 要不要懒加载，不然在注册时就初始化生成实例
-    private boolean lazyInit = false;
+    private boolean lazyInit = true;
     // dependsOn：记录 Bean 之间的依赖关系
     private String[] dependsOn;
     // 属性注入的集合类：构造器注入和Setter注入，也即构造器参数和property列表
