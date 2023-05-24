@@ -11,10 +11,13 @@ public class PropertyValue {
 	private final String name;    // 属性名称name
 	private final Object value;    // 赋值value
 
-	public PropertyValue(String type, String name, Object value) {
+	private final boolean isRef;	// 是否依赖
+
+	public PropertyValue(String type, String name, Object value, boolean isRef) {
 		this.type = type;
 		this.name = name;
 		this.value = value;
+		this.isRef = isRef;
 	}
 
 	// 以下是getter和setter
@@ -31,5 +34,8 @@ public class PropertyValue {
 		return this.value;
 	}
 
+	public boolean getIsRef() {
+		return isRef;
+	}
 }
 

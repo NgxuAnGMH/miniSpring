@@ -11,6 +11,7 @@ public class ArgumentValue {
     private String type;    // 属性类型type
     private String name;    // 属性名称name
     private Object value;    // 赋值value
+    // 不同于PropertyValue，这里不用增加 isRef
 
 
     public ArgumentValue(String type, Object value) {
