@@ -16,6 +16,7 @@ public class Test1 {
 		} catch (BeansException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }
