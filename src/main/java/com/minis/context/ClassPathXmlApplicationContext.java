@@ -38,11 +38,19 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 
 	//context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
 	public ClassPathXmlApplicationContext(String fileName){
+    	this(fileName, true);
+    }
+
+    public ClassPathXmlApplicationContext(String fileName, boolean isRefresh){
 		Resource res = new ClassPathXmlResource(fileName);
 		SimpleBeanFactory bf = new SimpleBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.loadBeanDefinitions(res);
 		this.beanFactory = bf;
+		// IoC3 新增
+        if (isRefresh) {
+        	this.beanFactory.refresh();
+        }
 	}
 
 	// context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
