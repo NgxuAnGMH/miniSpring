@@ -17,4 +17,5 @@ public interface BeanDefinitionRegistry {
 
     // 判断是否已注册
     boolean containsBeanDefinition(String name);
+
 }
