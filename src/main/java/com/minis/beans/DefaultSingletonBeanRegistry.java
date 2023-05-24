@@ -1,10 +1,6 @@
 package com.minis.beans;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,29 +16,38 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     protected Map<String, Set<String>> dependentBeanMap = new ConcurrentHashMap(64);
     protected Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap(64);
 
-//    @Override
+    //    @Override
     public void registerSingleton(String beanName, Object singletonObject) {
         /**
          * 将 singletonObjects 定义为了一个 **ConcurrentHashMap**，
          * 而且在实现 registrySingleton 时前面加了一个关键字 **synchronized**。
          */
         synchronized (this.singletonObjects) {
+            // IoC3新增
+            Object oldObject = this.singletonObjects.get(beanName);
+            if (oldObject != null) {
+                throw new IllegalStateException("Could not register object [" + singletonObject +
+                        "] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
+            }
+            // IoC2原有
             this.singletonObjects.put(beanName, singletonObject);
             this.beanNames.add(beanName);
+            // IoC3新增
+            System.out.println(" bean registerded............. " + beanName);
         }
     }
 
-//    @Override
+    //    @Override
     public Object getSingleton(String beanName) {
         return this.singletonObjects.get(beanName);
     }
 
-//    @Override
+    //    @Override
     public boolean containsSingleton(String beanName) {
         return this.singletonObjects.containsKey(beanName);
     }
 
-//    @Override
+    //    @Override
     public String[] getSingletonNames() {
         return (String[]) this.beanNames.toArray();
     }
@@ -54,16 +59,50 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         }
     }
 
-    // 这是为后续扩展做准备的，管理Bean的依赖！
+    // 这是为后续扩展做准备的，管理Bean的依赖！IOC3全部填充
     protected void registerDependentBean(String beanName, String dependentBeanName) {
+        Set<String> dependentBeans = this.dependentBeanMap.get(beanName);
+        if (dependentBeans != null && dependentBeans.contains(dependentBeanName)) {
+            return;
+        }
+
+        // No entry yet -> fully synchronized manipulation of the dependentBeans Set
+        synchronized (this.dependentBeanMap) {
+            dependentBeans = this.dependentBeanMap.get(beanName);
+            if (dependentBeans == null) {
+                dependentBeans = new LinkedHashSet<String>(8);
+                this.dependentBeanMap.put(beanName, dependentBeans);
+            }
+            dependentBeans.add(dependentBeanName);
+        }
+        synchronized (this.dependenciesForBeanMap) {
+            Set<String> dependenciesForBean = this.dependenciesForBeanMap.get(dependentBeanName);
+            if (dependenciesForBean == null) {
+                dependenciesForBean = new LinkedHashSet<String>(8);
+                this.dependenciesForBeanMap.put(dependentBeanName, dependenciesForBean);
+            }
+            dependenciesForBean.add(beanName);
+        }
+
     }
+
     protected boolean hasDependentBean(String beanName) {
-        return false;
+        return this.dependentBeanMap.containsKey(beanName);
     }
+
     protected String[] getDependentBeans(String beanName) {
-        return null;
+        Set<String> dependentBeans = this.dependentBeanMap.get(beanName);
+        if (dependentBeans == null) {
+            return new String[0];
+        }
+        return (String[]) dependentBeans.toArray();
     }
+
     protected String[] getDependenciesForBean(String beanName) {
-        return null;
+        Set<String> dependenciesForBean = this.dependenciesForBeanMap.get(beanName);
+        if (dependenciesForBean == null) {
+            return new String[0];
+        }
+        return (String[]) dependenciesForBean.toArray();
     }
 }
