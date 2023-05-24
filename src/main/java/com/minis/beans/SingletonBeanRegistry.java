@@ -12,4 +12,5 @@ public interface SingletonBeanRegistry {
     boolean containsSingleton(String beanName);
     // 获取所有已注册的单例：返回名称列表
     String[] getSingletonNames();
+
 }
