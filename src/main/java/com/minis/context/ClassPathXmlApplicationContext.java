@@ -47,7 +47,8 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.loadBeanDefinitions(res);
 		this.beanFactory = bf;
-		// IoC3 新增
+		// IoC3 新增：在 Spring 体系中，Bean 是结合在一起同时创建完毕的
+		// 用一个 refresh() 就将整个 IoC 容器激活了，运行起来，加载所有配置好的 Bean
         if (isRefresh) {
         	this.beanFactory.refresh();
         }
