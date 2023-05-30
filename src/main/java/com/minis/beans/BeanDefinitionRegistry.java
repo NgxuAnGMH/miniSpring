@@ -4,6 +4,7 @@ package com.minis.beans;
  * 需要集中存放BeanDefinition，新增一个相应的管理接口。
  * 实现该接口的类就像是一个存放 BeanDefinition 的仓库，
  * 可以操作：存放、移除、获取及判断 BeanDefinition 对象。
+ * 注意：register注册方法，现在分配到了这个接口中。(原本是BeanFactory.java)
  */
 public interface BeanDefinitionRegistry {
     // 注册
