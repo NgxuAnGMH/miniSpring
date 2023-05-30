@@ -1,7 +1,7 @@
 package com.minis.test;
 
 public class BaseService {
-	// 该Bean依赖了我们定义的其他bean
+	// 该Bean依赖了我们定义的其他bean。
 	private BaseBaseService bbs;
 	
 	public BaseBaseService getBbs() {
