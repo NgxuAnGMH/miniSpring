@@ -9,9 +9,10 @@ package com.minis.beans;
 public class PropertyValue {
 	private final String type;    // 属性类型type
 	private final String name;    // 属性名称name
-	private final Object value;    // 赋值value
+	private final Object value;   	// 赋值value
 
-	private final boolean isRef;	// 是否依赖
+	private final boolean isRef;	// value是否为ref的情况
+	// 判断注入的属性，xml中显示是ref引用类型还是value普通的值类型，是否依赖其他bean
 
 	public PropertyValue(String type, String name, Object value, boolean isRef) {
 		this.type = type;

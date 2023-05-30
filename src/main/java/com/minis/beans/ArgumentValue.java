@@ -12,6 +12,7 @@ public class ArgumentValue {
     private String name;    // 属性名称name
     private Object value;    // 赋值value
     // 不同于PropertyValue，这里不用增加 isRef
+    // 因为构造器处理Ref会让循环依赖问题无法解决。
 
 
     public ArgumentValue(String type, Object value) {
