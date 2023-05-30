@@ -3,7 +3,7 @@
 
     <bean id="basebaseservice" class="com.minis.test.BaseBaseService">
         <!--id：对象的名称（接口引用） || class：具体实现/生成单例的模板-->
-        <!--woc这里是依赖：type：属性类型 || name：属性名称 || value：属性赋值-->
+        <!--woc这里是依赖引用ref：type：属性类型 || name：属性名称 || ref：引用另外一个bean，不是Value-->
         <property type="com.minis.test.AServiceImpl" name="as" ref="aservice"/>
     </bean>
     <bean id="aservice" class="com.minis.test.AServiceImpl">
@@ -17,7 +17,7 @@
     </bean>
     <bean id="baseservice" class="com.minis.test.BaseService">
         <!--id：对象的名称（接口引用） || class：具体实现/生成单例的模板-->
-        <!--woc这里是依赖：type：属性类型 || name：属性名称 || value：属性赋值-->
+        <!--woc这里是依赖引用ref：type：属性类型 || name：属性名称 || ref：引用另外一个bean，不是Value-->
         <property type="com.minis.test.BaseBaseService" name="bbs" ref="basebaseservice"/>
     </bean>
 
