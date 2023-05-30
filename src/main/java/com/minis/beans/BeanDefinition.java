@@ -40,14 +40,13 @@ public class BeanDefinition {
     }
 
     public BeanDefinition(String id, String className) {
+        // 构造器也是同样不包含Setter注入属性和Ref！
         this.id = id;
         this.className = className;
     }
 
     /**
      * 以下是IoC2新增的方法
-     *
-     * @return
      */
 
     public boolean hasBeanClass() {
@@ -79,9 +78,7 @@ public class BeanDefinition {
         return this.lazyInit;
     }
 
-    public void setDependsOn(String... dependsOn) {
-        this.dependsOn = dependsOn;
-    }
+    public void setDependsOn(String... dependsOn) {this.dependsOn = dependsOn;}
     public String[] getDependsOn() {
         return this.dependsOn;
     }
