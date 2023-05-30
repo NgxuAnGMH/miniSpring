@@ -33,7 +33,6 @@ public class XmlBeanDefinitionReader {
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
 
-            // this.bf.registerBeanDefinition(beanDefinition); IoC1这里是
             // 因为IoC2增加了更多的属性注入机制，因此以下：
 			// 如果有构造器参数集合，或者Setter注入集合，则也打包成属性成员，传递给beanDefinition。
 
@@ -44,6 +43,7 @@ public class XmlBeanDefinitionReader {
                 String pType = e.attributeValue("type");
                 String pName = e.attributeValue("name");
                 String pValue = e.attributeValue("value");
+                // 加到集合里面
                 AVS.addArgumentValue(new ArgumentValue(pType, pName, pValue));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
@@ -53,14 +53,14 @@ public class XmlBeanDefinitionReader {
             //handle properties
             List<Element> propertyElements = element.elements("property");
             PropertyValues PVS = new PropertyValues();
-			// IoC3新增引用列表
+			// IoC3在Property中增加了isRef判断，因此
             List<String> refs = new ArrayList();
             for (Element e : propertyElements) {
                 String pType = e.attributeValue("type");
                 String pName = e.attributeValue("name");
                 String pValue = e.attributeValue("value");
 
-				// IoC3引用列表的处理
+				// IoC3在Property中增加了isRef判断，因此
                 String pRef = e.attributeValue("ref");
                 String pV = "";
                 boolean isRef = false;
@@ -70,19 +70,18 @@ public class XmlBeanDefinitionReader {
                 } else if (pRef != null && !pRef.equals("")) {
                     isRef = true;
                     pV = pRef;
-                    refs.add(pRef);
+                    refs.add(pRef);// 将依赖引用加入到列表里
                 }
-
+                // 加到集合里面
                 PVS.addPropertyValue(new PropertyValue(pType, pName, pV, isRef));
             }
             beanDefinition.setPropertyValues(PVS);
-            // IoC3 新增：
+            // IoC3 新增：将ref列表设置到BeanDefinition中
             String[] refArray = refs.toArray(new String[0]);
             beanDefinition.setDependsOn(refArray);
             //end of handle properties
 
             this.bf.registerBeanDefinition(beanID, beanDefinition);
-            // this.bf.registerBeanDefinition(beanDefinition); IoC1这里是
         }
 
     }
