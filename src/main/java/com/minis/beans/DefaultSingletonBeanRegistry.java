@@ -14,9 +14,9 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     // 这是为后续扩展做准备的，管理Bean的依赖！
     protected Map<String, Set<String>> dependentBeanMap = new ConcurrentHashMap(64);
+    // beanName与dependentBeans（Set<>）。一个bean，对应依赖的所有Set<bean>。
     protected Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap(64);
 
-    //    @Override
     public void registerSingleton(String beanName, Object singletonObject) {
         /**
          * 将 singletonObjects 定义为了一个 **ConcurrentHashMap**，
@@ -37,17 +37,14 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         }
     }
 
-    //    @Override
     public Object getSingleton(String beanName) {
         return this.singletonObjects.get(beanName);
     }
 
-    //    @Override
     public boolean containsSingleton(String beanName) {
         return this.singletonObjects.containsKey(beanName);
     }
 
-    //    @Override
     public String[] getSingletonNames() {
         return (String[]) this.beanNames.toArray();
     }
@@ -60,27 +57,43 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     }
 
     // 这是为后续扩展做准备的，管理Bean的依赖！IOC3全部填充
+
+    /**
+     *
+     * @param beanName 一个bean的名称
+     * @param dependentBeanName 它依赖的某个bean
+     *                          TODO IoC3
+     */
     protected void registerDependentBean(String beanName, String dependentBeanName) {
+        // 根据 beanName 查询 Map，得到 Set<>。
         Set<String> dependentBeans = this.dependentBeanMap.get(beanName);
+
+        // 如果 dependentBeans(Set) 不为空，且已包含dependentBeanName，直接返回
         if (dependentBeans != null && dependentBeans.contains(dependentBeanName)) {
             return;
         }
 
         // No entry yet -> fully synchronized manipulation of the dependentBeans Set
+        // dependentBeans(Set) 1 为空 2 不为空但不包含dependentBeanName
         synchronized (this.dependentBeanMap) {
             dependentBeans = this.dependentBeanMap.get(beanName);
+            // dependentBeans(Set) 1 为空，先将Set<>给new出来。并创建好映射。dependentBeanMap。
             if (dependentBeans == null) {
                 dependentBeans = new LinkedHashSet<String>(8);
                 this.dependentBeanMap.put(beanName, dependentBeans);
             }
+            // dependentBeans(Set) 2 不为空但不包含dependentBeanName，添加。
             dependentBeans.add(dependentBeanName);
         }
+        // 根据 dependentBeanName 查询 Map，得到 Set<>。
         synchronized (this.dependenciesForBeanMap) {
             Set<String> dependenciesForBean = this.dependenciesForBeanMap.get(dependentBeanName);
+            // dependenciesForBean(Set) 1 为空，先将Set<>给new出来。并创建好映射。dependenciesForBeanMap。
             if (dependenciesForBean == null) {
                 dependenciesForBean = new LinkedHashSet<String>(8);
                 this.dependenciesForBeanMap.put(dependentBeanName, dependenciesForBean);
             }
+            // dependenciesForBean(Set) 2 不为空但不包含beanName，添加。
             dependenciesForBean.add(beanName);
         }
 
