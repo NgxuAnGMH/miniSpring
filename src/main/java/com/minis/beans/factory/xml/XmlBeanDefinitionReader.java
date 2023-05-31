@@ -7,6 +7,7 @@ import com.minis.beans.*;
 import com.minis.beans.factory.config.BeanDefinition;
 import com.minis.beans.factory.config.ConstructorArgumentValue;
 import com.minis.beans.factory.config.ConstructorArgumentValues;
+import com.minis.beans.factory.support.AbstractBeanFactory;
 import org.dom4j.Element;
 
 import com.minis.core.Resource;
@@ -19,9 +20,10 @@ import com.minis.core.Resource;
  */
 public class XmlBeanDefinitionReader {
     // IoC1 这里是BeanFactory bf;
-    SimpleBeanFactory bf; // 委派给工厂
+    // IoC2+3 这里是SimpleBeanFactory bf
+    AbstractBeanFactory bf; // 委派给工厂
 
-    public XmlBeanDefinitionReader(SimpleBeanFactory bf) {
+    public XmlBeanDefinitionReader(AbstractBeanFactory bf) {
         this.bf = bf;
     }
 
@@ -32,6 +34,9 @@ public class XmlBeanDefinitionReader {
             // 底层都是数组，二者算是同步。
             String beanID = element.attributeValue("id");
             String beanClassName = element.attributeValue("class");
+            // IoC4新增
+            String initMethodName=element.attributeValue("init-method");
+
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
 
             // 因为IoC2增加了更多的属性注入机制，因此以下：
@@ -81,6 +86,9 @@ public class XmlBeanDefinitionReader {
             String[] refArray = refs.toArray(new String[0]);
             beanDefinition.setDependsOn(refArray);
             //end of handle properties
+
+            // IoC4新增
+        	beanDefinition.setInitMethodName(initMethodName);
 
             this.bf.registerBeanDefinition(beanID, beanDefinition);
         }

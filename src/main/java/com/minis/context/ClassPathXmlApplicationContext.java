@@ -3,9 +3,15 @@ package com.minis.context;
 import com.minis.beans.factory.BeanFactory;
 import com.minis.beans.factory.BeansException;
 import com.minis.beans.SimpleBeanFactory;
+import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+import com.minis.beans.factory.config.AutowireCapableBeanFactory;
+import com.minis.beans.factory.config.BeanFactoryPostProcessor;
 import com.minis.beans.factory.xml.XmlBeanDefinitionReader;
 import com.minis.core.ClassPathXmlResource;
 import com.minis.core.Resource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: cmx
@@ -21,8 +27,12 @@ import com.minis.core.Resource;
  */
 public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEventPublisher{
 															// IoC2：新增实现了事件发布接口。
-	// 原来是BeanFactory beanFactory;
-	SimpleBeanFactory beanFactory;
+	// 原来是BeanFactory beanFactory; 或 SimpleBeanFactory beanFactory;
+
+	// IoC4新增
+	AutowireCapableBeanFactory beanFactory;
+	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors =
+			new ArrayList<BeanFactoryPostProcessor>();
 
 	//context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
 	public ClassPathXmlApplicationContext(String fileName){
@@ -31,15 +41,22 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh){
 		Resource res = new ClassPathXmlResource(fileName);
-		SimpleBeanFactory bf = new SimpleBeanFactory();
+//		IoC4注释掉 SimpleBeanFactory bf = new SimpleBeanFactory();
+		AutowireCapableBeanFactory bf = new AutowireCapableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.loadBeanDefinitions(res);
 		this.beanFactory = bf;
 		// IoC3 新增：在 Spring 体系中，Bean 是结合在一起同时创建完毕的
 		// 用一个 refresh() 就将整个 IoC 容器激活了，运行起来，加载所有配置好的 Bean
         if (isRefresh) {
-        	this.beanFactory.refresh();
-        }
+			try {
+				refresh();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (BeansException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
@@ -75,5 +92,34 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	// IoC4 新增以下所有
+
+	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
+		return this.beanFactoryPostProcessors;
+	}
+
+	public void addBeanFactoryPostProcessor(BeanFactoryPostProcessor postProcessor) {
+		this.beanFactoryPostProcessors.add(postProcessor);
+	}
+
+	public void refresh() throws BeansException, IllegalStateException {
+		// Register bean processors that intercept bean creation.
+		registerBeanPostProcessors(this.beanFactory);
+
+		// Initialize other special beans in specific context subclasses.
+		onRefresh();
+	}
+
+	private void registerBeanPostProcessors(AutowireCapableBeanFactory bf) {
+		//if (supportAutowire) {
+		bf.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+		//}
+	}
+
+	private void onRefresh() {
+		this.beanFactory.refresh();
+	}
+
 
 }

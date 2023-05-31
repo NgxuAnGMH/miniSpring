@@ -15,4 +15,10 @@ public class BaseBaseService {
 	public void sayHello() {
 		System.out.println("Base Base Service says hello");
 	}
+
+	// IoC4新增init
+	public void init() {
+		System.out.println("Base Base Service init method.");
+	}
+
 }
