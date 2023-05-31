@@ -178,9 +178,8 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     // 通过BeanDefinition实例化
 	private Object createBean(BeanDefinition bd) {
 		Class<?> clz = null;
+		// 先是构造器注入，也即是：创建毛胚bean实例
 		Object obj = doCreateBean(bd);
-		
-        //先是构造器注入，也即是：创建毛胚bean实例
         // 存放到毛胚实例缓存中
 		this.earlySingletonObjects.put(bd.getId(), obj);
 		

@@ -9,10 +9,11 @@ import java.util.List;
 
 public class AutowireCapableBeanFactory extends AbstractBeanFactory{
 	private final List<AutowiredAnnotationBeanPostProcessor> beanPostProcessors = new ArrayList<AutowiredAnnotationBeanPostProcessor>();
+	// 用*一个列表 beanPostProcessors* 记录*所有的 Bean 处理器*，这样可以按照需求注册若干个不同用途的处理器，然后调用处理器。
 	
 	public void addBeanPostProcessor(AutowiredAnnotationBeanPostProcessor beanPostProcessor) {
-		this.beanPostProcessors.remove(beanPostProcessor);
-		this.beanPostProcessors.add(beanPostProcessor);
+		this.beanPostProcessors.remove(beanPostProcessor);	// 先去掉
+		this.beanPostProcessors.add(beanPostProcessor);		// 后添加
 	}
 	public int getBeanPostProcessorCount() {
 		return this.beanPostProcessors.size();
@@ -27,6 +28,7 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
 		Object result = existingBean;
 		for (AutowiredAnnotationBeanPostProcessor beanProcessor : getBeanPostProcessors()) {
 			beanProcessor.setBeanFactory(this);
+			// **对每个 Bean 处理器**，调用方法 postProcess`Before`Initialization。
 			result = beanProcessor.postProcessBeforeInitialization(result, beanName);
 			if (result == null) {
 				return result;
@@ -40,6 +42,7 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
 
 		Object result = existingBean;
 		for (BeanPostProcessor beanProcessor : getBeanPostProcessors()) {
+			// **对每个 Bean 处理器**，调用方法 postProcess`After`Initialization。
 			result = beanProcessor.postProcessAfterInitialization(result, beanName);
 			if (result == null) {
 				return result;
