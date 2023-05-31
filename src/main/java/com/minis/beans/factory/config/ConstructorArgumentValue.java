@@ -1,4 +1,4 @@
-package com.minis.beans;
+package com.minis.beans.factory.config;
 
 /**
  * 就我们之前，是针对`<beans><bean>`这两对标签，现在自己新增了 `<property>` 和 `<constructor-args>` 标签，
@@ -6,7 +6,7 @@ package com.minis.beans;
  * 这里是构造器注入的属性类。单个
  * 构造器参数(类)！
  */
-public class ArgumentValue {
+public class ConstructorArgumentValue {
 
     private String type;    // 属性类型type
     private String name;    // 属性名称name
@@ -15,12 +15,12 @@ public class ArgumentValue {
     // 因为构造器处理Ref会让循环依赖问题无法解决。
 
 
-    public ArgumentValue(String type, Object value) {
+    public ConstructorArgumentValue(String type, Object value) {
         this.value = value;
         this.type = type;
     }
 
-    public ArgumentValue(String type, String name, Object value) {
+    public ConstructorArgumentValue(String type, String name, Object value) {
         this.value = value;
         this.type = type;
         this.name = name;

@@ -1,4 +1,6 @@
-package com.minis.beans;
+package com.minis.beans.factory.support;
+
+import com.minis.beans.factory.config.BeanDefinition;
 
 /**
  * 需要集中存放BeanDefinition，新增一个相应的管理接口。

@@ -1,21 +1,9 @@
 package com.minis.context;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import com.minis.beans.BeanDefinition;
-import com.minis.beans.BeanFactory;
-import com.minis.beans.BeansException;
-import com.minis.beans.NoSuchBeanDefinitionException;
+import com.minis.beans.factory.BeanFactory;
+import com.minis.beans.factory.BeansException;
 import com.minis.beans.SimpleBeanFactory;
-import com.minis.beans.XmlBeanDefinitionReader;
+import com.minis.beans.factory.xml.XmlBeanDefinitionReader;
 import com.minis.core.ClassPathXmlResource;
 import com.minis.core.Resource;
 
@@ -55,12 +43,10 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 	}
 
 	// context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
-//	@Override
 	public Object getBean(String beanName) throws BeansException {
 		return this.beanFactory.getBean(beanName);
 	}
 
-//	@Override
 	public boolean containsBean(String name) {
 		return this.beanFactory.containsBean(name);
 	}
@@ -72,23 +58,19 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 		this.beanFactory.registerBean(beanName, obj);
 	}
 
-//	@Override
 	public void publishEvent(ApplicationEvent event) {
 	}
 
-//	@Override
 	public boolean isSingleton(String name) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-//	@Override
 	public boolean isPrototype(String name) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-//	@Override
 	public Class<?> getType(String name) {
 		// TODO Auto-generated method stub
 		return null;

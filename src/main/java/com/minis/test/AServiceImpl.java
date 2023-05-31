@@ -29,7 +29,9 @@ public class AServiceImpl implements AService {
     public String getProperty2() {
         return property2;
     }
-    public void setProperty2(String property2) {this.property2 = property2;}
+    public void setProperty2(String property2) {
+        this.property2 = property2;
+    }
 
     public AServiceImpl() {
     }

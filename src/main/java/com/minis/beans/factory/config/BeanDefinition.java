@@ -1,4 +1,6 @@
-package com.minis.beans;
+package com.minis.beans.factory.config;
+
+import com.minis.beans.PropertyValues;
 
 /**
  * 扩展 BeanDefinition 的属性，在原有 id 与 name 两个属性的基础上，
@@ -19,7 +21,7 @@ public class BeanDefinition {
     private String[] dependsOn;
     // 属性注入的集合类：构造器注入和Setter注入，也即构造器参数和property列表
     // 用在SimpleBeanFactory中的createBean(BeanDefinition bd)方法
-    private ArgumentValues constructorArgumentValues;
+    private ConstructorArgumentValues constructorArgumentValues;
     private PropertyValues propertyValues;
     // 初始化方法的声明：当一个 Bean 构造好并实例化之后是否要让框架调用初始化方法
     private String initMethodName;
@@ -55,7 +57,9 @@ public class BeanDefinition {
     public void setBeanClass(Class<?> beanClass) {
         this.beanClass = beanClass;
     }
-    public Class<?> getBeanClass() {return (Class<?>) this.beanClass;}
+    public Class<?> getBeanClass() {
+        return (Class<?>) this.beanClass;
+    }
 
     public void setScope(String scope) {
         this.scope = scope;
@@ -78,16 +82,18 @@ public class BeanDefinition {
         return this.lazyInit;
     }
 
-    public void setDependsOn(String... dependsOn) {this.dependsOn = dependsOn;}
+    public void setDependsOn(String... dependsOn) {
+        this.dependsOn = dependsOn;
+    }
     public String[] getDependsOn() {
         return this.dependsOn;
     }
 
-    public void setConstructorArgumentValues(ArgumentValues constructorArgumentValues) {
+    public void setConstructorArgumentValues(ConstructorArgumentValues constructorArgumentValues) {
         this.constructorArgumentValues =
-                (constructorArgumentValues != null ? constructorArgumentValues : new ArgumentValues());
+                (constructorArgumentValues != null ? constructorArgumentValues : new ConstructorArgumentValues());
     }
-    public ArgumentValues getConstructorArgumentValues() {
+    public ConstructorArgumentValues getConstructorArgumentValues() {
         return this.constructorArgumentValues;
     }
     public boolean hasConstructorArgumentValues() {

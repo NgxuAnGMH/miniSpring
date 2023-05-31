@@ -1,12 +1,13 @@
-package com.minis.beans;
+package com.minis.beans.factory.xml;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dom4j.Document;
+import com.minis.beans.*;
+import com.minis.beans.factory.config.BeanDefinition;
+import com.minis.beans.factory.config.ConstructorArgumentValue;
+import com.minis.beans.factory.config.ConstructorArgumentValues;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
 import com.minis.core.Resource;
 
@@ -38,13 +39,13 @@ public class XmlBeanDefinitionReader {
 
             //get constructor
             List<Element> constructorElements = element.elements("constructor-arg");
-            ArgumentValues AVS = new ArgumentValues();
+            ConstructorArgumentValues AVS = new ConstructorArgumentValues();
             for (Element e : constructorElements) {
                 String pType = e.attributeValue("type");
                 String pName = e.attributeValue("name");
                 String pValue = e.attributeValue("value");
                 // 加到集合里面
-                AVS.addArgumentValue(new ArgumentValue(pType, pName, pValue));
+                AVS.addArgumentValue(new ConstructorArgumentValue(pType, pName, pValue));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
             //end of handle constructor

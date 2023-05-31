@@ -1,4 +1,4 @@
-package com.minis.beans;
+package com.minis.beans.factory;
 
 // 通过类名语义来表达异常的方式
 public class NoSuchBeanDefinitionException extends Exception {

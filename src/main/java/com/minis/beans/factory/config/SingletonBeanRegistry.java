@@ -1,4 +1,4 @@
-package com.minis.beans;
+package com.minis.beans.factory.config;
 
 /**
  * Bean可能是单例，也因此新增单例接口，方便今后对所有（模式是单例的）Bean进行管理

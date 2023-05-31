@@ -11,13 +11,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.minis.beans.BeanDefinition;
-import com.minis.beans.BeanFactory;
-import com.minis.beans.NoSuchBeanDefinitionException;
-import com.minis.beans.SimpleBeanFactory;
-import com.minis.beans.XmlBeanDefinitionReader;
-import com.minis.core.ClassPathXmlResource;
-import com.minis.core.Resource;
+import com.minis.beans.factory.config.BeanDefinition;
 
 public class ClassPathXmlApplicationContext0 {
     private List<BeanDefinition> beanDefinitions = new ArrayList();
