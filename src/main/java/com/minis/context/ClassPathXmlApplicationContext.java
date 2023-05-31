@@ -29,7 +29,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 															// IoC2：新增实现了事件发布接口。
 	// 原来是BeanFactory beanFactory; 或 SimpleBeanFactory beanFactory;
 
-	// IoC4新增
+	// IoC4修改策略为：AutowireCapableBeanFactory
 	AutowireCapableBeanFactory beanFactory;
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors =
 			new ArrayList<BeanFactoryPostProcessor>();
