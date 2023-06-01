@@ -1,11 +1,7 @@
 package com.minis.beans.factory.support;
 
+import com.minis.beans.factory.config.*;
 import com.minis.beans.factory.exception.BeansException;
-import com.minis.beans.factory.config.PropertyValue;
-import com.minis.beans.factory.config.PropertyValues;
-import com.minis.beans.factory.config.BeanDefinition;
-import com.minis.beans.factory.config.ConstructorArgumentValue;
-import com.minis.beans.factory.config.ConstructorArgumentValues;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -19,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 抽取出来的通用抽象类
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory,BeanDefinitionRegistry{
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory,BeanDefinitionRegistry{
     protected Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
 	// 已注册了的，但可能还没有实例化
 	protected List<String> beanDefinitionNames=new ArrayList<>();
@@ -92,7 +88,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
     
     private void invokeInitMethod(BeanDefinition bd, Object obj) {
-    	Class<?> clz = obj.getClass();
+    	Class<?> clz = bd.getClass();
 		Method method = null;
 		try {
 			method = clz.getMethod(bd.getInitMethodName());
