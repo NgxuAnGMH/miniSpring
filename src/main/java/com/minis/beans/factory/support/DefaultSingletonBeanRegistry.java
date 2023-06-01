@@ -49,7 +49,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         return (String[]) this.beanNames.toArray();
     }
 
-    protected void removeSingleton(String beanName) {
+    public void removeSingleton(String beanName) {
         synchronized (this.singletonObjects) {
             this.singletonObjects.remove(beanName);
             this.beanNames.remove(beanName);
@@ -64,7 +64,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      * @param dependentBeanName 它依赖的某个bean
      *                          TODO IoC3
      */
-    protected void registerDependentBean(String beanName, String dependentBeanName) {
+    public void registerDependentBean(String beanName, String dependentBeanName) {
         // 根据 beanName 查询 Map，得到 Set<>。
         Set<String> dependentBeans = this.dependentBeanMap.get(beanName);
 
@@ -99,11 +99,11 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     }
 
-    protected boolean hasDependentBean(String beanName) {
+	public boolean hasDependentBean(String beanName) {
         return this.dependentBeanMap.containsKey(beanName);
     }
 
-    protected String[] getDependentBeans(String beanName) {
+	public String[] getDependentBeans(String beanName) {
         Set<String> dependentBeans = this.dependentBeanMap.get(beanName);
         if (dependentBeans == null) {
             return new String[0];
@@ -111,7 +111,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         return (String[]) dependentBeans.toArray();
     }
 
-    protected String[] getDependenciesForBean(String beanName) {
+	public String[] getDependenciesForBean(String beanName) {
         Set<String> dependenciesForBean = this.dependenciesForBeanMap.get(beanName);
         if (dependenciesForBean == null) {
             return new String[0];

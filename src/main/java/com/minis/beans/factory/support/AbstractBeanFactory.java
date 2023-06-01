@@ -20,9 +20,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * 抽取出来的通用抽象类
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory,BeanDefinitionRegistry{
-    private Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
+    protected Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
 	// 已注册了的，但可能还没有实例化
-	private List<String> beanDefinitionNames=new ArrayList<>();
+	protected List<String> beanDefinitionNames=new ArrayList<>();
 	// 名称注册表
 
     // IoC3新增属性：早期的毛胚实例，在实例化与属性注入这两个阶段之间增加一个环节：确保给 Bean 注入属性的时候，Spring 内部已经准备好了 Bean 的实例
