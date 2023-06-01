@@ -3,7 +3,7 @@ package com.minis.context;
 import com.minis.beans.factory.support.BeanFactory;
 import com.minis.beans.factory.exception.BeansException;
 import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import com.minis.beans.factory.config.AutowireCapableBeanFactory;
+import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.minis.beans.factory.config.BeanFactoryPostProcessor;
 import com.minis.beans.factory.xml.XmlBeanDefinitionReader;
 import com.minis.core.ClassPathXmlResource;
@@ -29,7 +29,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 	// 原来是BeanFactory beanFactory; 或 SimpleBeanFactory beanFactory;
 
 	// IoC4修改策略为：AutowireCapableBeanFactory
-	AutowireCapableBeanFactory beanFactory;
+	AbstractAutowireCapableBeanFactory beanFactory;
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors =
 			new ArrayList<BeanFactoryPostProcessor>();
 
@@ -41,7 +41,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh){
 		Resource res = new ClassPathXmlResource(fileName);
 //		IoC4注释掉 SimpleBeanFactory bf = new SimpleBeanFactory();
-		AutowireCapableBeanFactory bf = new AutowireCapableBeanFactory();
+		AbstractAutowireCapableBeanFactory bf = new AbstractAutowireCapableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.loadBeanDefinitions(res);
 		this.beanFactory = bf;
@@ -110,7 +110,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 		onRefresh();
 	}
 
-	private void registerBeanPostProcessors(AutowireCapableBeanFactory bf) {
+	private void registerBeanPostProcessors(AbstractAutowireCapableBeanFactory bf) {
 		//if (supportAutowire) {
 		bf.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
 		//}

@@ -1,7 +1,7 @@
 package com.minis.beans.factory.annotation;
 
 import com.minis.beans.factory.exception.BeansException;
-import com.minis.beans.factory.config.AutowireCapableBeanFactory;
+import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.minis.beans.factory.config.BeanPostProcessor;
 
 import java.lang.reflect.Field;
@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  * 虽然继承了 BeanPostProcessor，但它是用来处理注解的！
  */
 public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
-	private AutowireCapableBeanFactory beanFactory;
+	private AbstractAutowireCapableBeanFactory beanFactory;
 	
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -52,11 +52,11 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 		return null;
 	}
 
-	public AutowireCapableBeanFactory getBeanFactory() {
+	public AbstractAutowireCapableBeanFactory getBeanFactory() {
 		return beanFactory;
 	}
 
-	public void setBeanFactory(AutowireCapableBeanFactory beanFactory) {
+	public void setBeanFactory(AbstractAutowireCapableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
 
