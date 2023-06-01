@@ -1,4 +1,6 @@
-package com.minis.beans.factory;
+package com.minis.beans.factory.support;
+
+import com.minis.beans.factory.exception.BeansException;
 
 /**
  * @author: cmx

@@ -2,12 +2,10 @@ package com.minis.test;
 
 public class AServiceImpl implements AService {
     // bean.xml中的Bean的属性
-
     private String name;    // 构造器注入
     private int level;        // 构造器注入
     private String property1;    // Setter注入
     private String property2;    // Setter注入
-
     // IoC3新增依赖引用
     private BaseService ref1;
 

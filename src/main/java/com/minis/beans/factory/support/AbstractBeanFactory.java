@@ -1,9 +1,8 @@
 package com.minis.beans.factory.support;
 
-import com.minis.beans.factory.BeansException;
-import com.minis.beans.PropertyValue;
-import com.minis.beans.PropertyValues;
-import com.minis.beans.factory.BeanFactory;
+import com.minis.beans.factory.exception.BeansException;
+import com.minis.beans.factory.config.PropertyValue;
+import com.minis.beans.factory.config.PropertyValues;
 import com.minis.beans.factory.config.BeanDefinition;
 import com.minis.beans.factory.config.ConstructorArgumentValue;
 import com.minis.beans.factory.config.ConstructorArgumentValues;

@@ -4,6 +4,7 @@ import com.minis.beans.factory.annotation.Autowired;
 
 public class BaseService {
 	// 该Bean依赖了我们定义的其他bean。IoC4新增注解@Autowired
+	// 因此不必在beans.xml中手动配置。
 	@Autowired
 	private BaseBaseService bbs;
 	

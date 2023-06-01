@@ -17,7 +17,7 @@ public class ClassPathXmlResource implements Resource {
         SAXReader saxReader=new SAXReader();
 		// 猜测：触发启动这个类，加载类信息，并使用其方法绑定资源
         URL xmlPath=this.getClass().getClassLoader().getResource(fileName);
-		//将配置文件装载进来，生成一个迭代器，可以用于遍历
+		// 将配置文件装载进来，生成一个迭代器，可以用于遍历
         try {
 			this.document = saxReader.read(xmlPath);
 			this.rootElement=document.getRootElement();

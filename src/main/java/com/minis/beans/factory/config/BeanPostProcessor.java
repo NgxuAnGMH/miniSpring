@@ -1,6 +1,6 @@
 package com.minis.beans.factory.config;
 
-import com.minis.beans.factory.BeansException;
+import com.minis.beans.factory.exception.BeansException;
 
 public interface BeanPostProcessor {
 	// Bean初始化之前

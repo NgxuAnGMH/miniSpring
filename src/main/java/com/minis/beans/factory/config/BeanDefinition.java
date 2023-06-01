@@ -1,7 +1,5 @@
 package com.minis.beans.factory.config;
 
-import com.minis.beans.PropertyValues;
-
 /**
  * 扩展 BeanDefinition 的属性，在原有 id 与 name 两个属性的基础上，
  * 新增 <u>lazyInit（延迟初始化）、dependsOn（依赖于）、initMethodName（初始化方法名称）</u> 等属性。

@@ -1,8 +1,7 @@
 package com.minis.context;
 
-import com.minis.beans.factory.BeanFactory;
-import com.minis.beans.factory.BeansException;
-import com.minis.beans.SimpleBeanFactory;
+import com.minis.beans.factory.support.BeanFactory;
+import com.minis.beans.factory.exception.BeansException;
 import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.minis.beans.factory.config.AutowireCapableBeanFactory;
 import com.minis.beans.factory.config.BeanFactoryPostProcessor;

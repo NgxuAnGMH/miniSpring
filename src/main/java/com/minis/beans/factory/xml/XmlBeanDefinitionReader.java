@@ -3,10 +3,7 @@ package com.minis.beans.factory.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.minis.beans.*;
-import com.minis.beans.factory.config.BeanDefinition;
-import com.minis.beans.factory.config.ConstructorArgumentValue;
-import com.minis.beans.factory.config.ConstructorArgumentValues;
+import com.minis.beans.factory.config.*;
 import com.minis.beans.factory.support.AbstractBeanFactory;
 import org.dom4j.Element;
 
@@ -78,7 +75,7 @@ public class XmlBeanDefinitionReader {
                     pV = pRef;
                     refs.add(pRef);// 将依赖引用加入到列表里
                 }
-                // 加到集合里面
+                // 加到集合里面：区分出来是ref，但还是要放到属性集合中去处理
                 PVS.addPropertyValue(new PropertyValue(pType, pName, pV, isRef));
             }
             beanDefinition.setPropertyValues(PVS);

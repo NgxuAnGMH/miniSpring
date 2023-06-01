@@ -1,6 +1,6 @@
 package com.minis.test;
 
-import com.minis.beans.factory.BeansException;
+import com.minis.beans.factory.exception.BeansException;
 import com.minis.context.ClassPathXmlApplicationContext;
 
 public class Test1 {
@@ -13,7 +13,7 @@ public class Test1 {
 			//aService = (AService)ctx.getBean("aservice");
 		    //aService.sayHello();
 
-			// IoC4的测试
+			// IoC4的测试：用到时是否能够自动装配
 			bService = (BaseService)ctx.getBean("baseservice");
 			bService.sayHello();
 		} catch (BeansException e) {

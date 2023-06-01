@@ -1,11 +1,7 @@
-package com.minis.beans;
+package com.minis.beans.factory.config;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 就我们之前，是针对`<beans><bean>`这两对标签，现在自己新增了 `<property>` 和 `<constructor-args>` 标签，
@@ -75,4 +71,3 @@ public class PropertyValues {
 
 
 }
-

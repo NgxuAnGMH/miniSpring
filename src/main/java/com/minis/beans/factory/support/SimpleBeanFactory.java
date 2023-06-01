@@ -1,10 +1,8 @@
-package com.minis.beans;
+package com.minis.beans.factory.support;
 
-import com.minis.beans.factory.BeanFactory;
-import com.minis.beans.factory.BeansException;
-import com.minis.beans.factory.config.BeanDefinition;
-import com.minis.beans.factory.config.ConstructorArgumentValue;
-import com.minis.beans.factory.config.ConstructorArgumentValues;
+import com.minis.beans.factory.support.BeanFactory;
+import com.minis.beans.factory.exception.BeansException;
+import com.minis.beans.factory.config.*;
 import com.minis.beans.factory.support.BeanDefinitionRegistry;
 import com.minis.beans.factory.support.DefaultSingletonBeanRegistry;
 
