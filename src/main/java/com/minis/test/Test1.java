@@ -9,7 +9,7 @@ public class Test1 {
 
 		// IoC4的测试 "beans.xml"
 		// ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
-		// IoC5的测试 "applicationContext.xml"
+		// IoC5的测试 "applicationContext.xml" ！
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		AService aService;
 	    BaseService bService;
