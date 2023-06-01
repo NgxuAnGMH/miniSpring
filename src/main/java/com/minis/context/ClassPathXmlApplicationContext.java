@@ -1,10 +1,14 @@
 package com.minis.context;
 
+import com.minis.beans.factory.config.ConfigurableListableBeanFactory;
 import com.minis.beans.factory.support.BeanFactory;
 import com.minis.beans.factory.exception.BeansException;
 import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+
 import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
+
 import com.minis.beans.factory.config.BeanFactoryPostProcessor;
+import com.minis.beans.factory.support.DefaultListableBeanFactory;
 import com.minis.beans.factory.xml.XmlBeanDefinitionReader;
 import com.minis.core.ClassPathXmlResource;
 import com.minis.core.Resource;
@@ -24,12 +28,8 @@ import java.util.List;
  * 结果是通过委托代理回给BeanFactory的方式，实现继承方法的重写。
  * 意思是其成员变量BeanFactory，就像策略一样，可以根据业务需要随时替换。
  */
-public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEventPublisher{
-															// IoC2：新增实现了事件发布接口。
-	// 原来是BeanFactory beanFactory; 或 SimpleBeanFactory beanFactory;
-
-	// IoC4修改策略为：AutowireCapableBeanFactory
-	AbstractAutowireCapableBeanFactory beanFactory;
+public class ClassPathXmlApplicationContext extends AbstractApplicationContext{
+	DefaultListableBeanFactory beanFactory;
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors =
 			new ArrayList<BeanFactoryPostProcessor>();
 
@@ -40,8 +40,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh){
 		Resource res = new ClassPathXmlResource(fileName);
-//		IoC4注释掉 SimpleBeanFactory bf = new SimpleBeanFactory();
-		AbstractAutowireCapableBeanFactory bf = new AbstractAutowireCapableBeanFactory();
+    	DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.loadBeanDefinitions(res);
 		this.beanFactory = bf;
@@ -58,67 +57,52 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
 		}
 	}
 
-	// context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
-	public Object getBean(String beanName) throws BeansException {
-		return this.beanFactory.getBean(beanName);
+	// IoC5新增
+	void registerListeners() {
+		ApplicationListener listener = new ApplicationListener();
+		this.getApplicationEventPublisher().addApplicationListener(listener);
+
 	}
 
-	public boolean containsBean(String name) {
-		return this.beanFactory.containsBean(name);
+	void initApplicationEventPublisher() {
+		ApplicationEventPublisher aep = new SimpleApplicationEventPublisher();
+		this.setApplicationEventPublisher(aep);
 	}
 
-	//	IoC1原来是
-//	public void registerBeanDefinition(BeanDefinition bd) {
-//		this.beanFactory.registerBeanDefinition(bd);
-	public void registerBean(String beanName, Object obj) {
-		this.beanFactory.registerBean(beanName, obj);
+	void postProcessBeanFactory(ConfigurableListableBeanFactory bf) {
 	}
 
-	public void publishEvent(ApplicationEvent event) {
+	void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
+		this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
 	}
 
-	public boolean isSingleton(String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	public boolean isPrototype(String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	public Class<?> getType(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// IoC4 新增以下所有
-
-	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
-		return this.beanFactoryPostProcessors;
-	}
-
-	public void addBeanFactoryPostProcessor(BeanFactoryPostProcessor postProcessor) {
-		this.beanFactoryPostProcessors.add(postProcessor);
-	}
-
-	public void refresh() throws BeansException, IllegalStateException {
-		// Register bean processors that intercept bean creation.
-		registerBeanPostProcessors(this.beanFactory);
-
-		// Initialize other special beans in specific context subclasses.
-		onRefresh();
-	}
-
-	private void registerBeanPostProcessors(AbstractAutowireCapableBeanFactory bf) {
-		//if (supportAutowire) {
-		bf.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
-		//}
-	}
-
-	private void onRefresh() {
+	void onRefresh() {
 		this.beanFactory.refresh();
 	}
 
+	@Override
+	public ConfigurableListableBeanFactory getBeanFactory() throws IllegalStateException {
+		return this.beanFactory;
+	}
+
+	@Override
+	public void addApplicationListener(ApplicationListener listener) {
+		this.getApplicationEventPublisher().addApplicationListener(listener);
+
+	}
+
+	@Override
+	void finishRefresh() {
+		publishEvent(new ContextRefreshEvent("Context Refreshed..."));
+
+	}
+
+	@Override
+	public void publishEvent(ApplicationEvent event) {
+		this.getApplicationEventPublisher().publishEvent(event);
+
+	}
 
 }
