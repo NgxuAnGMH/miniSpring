@@ -18,6 +18,7 @@ import com.minis.core.Resource;
 public class XmlBeanDefinitionReader {
     // IoC1 这里是BeanFactory bf;
     // IoC2+3 这里是SimpleBeanFactory bf
+    // IoC4+5 这里是AbstractBeanFactory
     AbstractBeanFactory bf; // 委派给工厂
 
     public XmlBeanDefinitionReader(AbstractBeanFactory bf) {
@@ -27,12 +28,10 @@ public class XmlBeanDefinitionReader {
     public void loadBeanDefinitions(Resource res) {
         while (res.hasNext()) {
             Element element = (Element) res.next();
-            // id -> List<String> beanNames || id + class -> List<BeanDefinition> beanDefinitions
-            // 底层都是数组，二者算是同步。
             String beanID = element.attributeValue("id");
             String beanClassName = element.attributeValue("class");
-            // IoC4新增
-            String initMethodName=element.attributeValue("init-method");
+            // IoC4新增 IoC5又去掉！
+            // String initMethodName=element.attributeValue("init-method");
 
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
 
@@ -84,8 +83,8 @@ public class XmlBeanDefinitionReader {
             beanDefinition.setDependsOn(refArray);
             //end of handle properties
 
-            // IoC4新增
-        	beanDefinition.setInitMethodName(initMethodName);
+            // IoC4新增 IoC5又去掉！
+        	// beanDefinition.setInitMethodName(initMethodName);
 
             this.bf.registerBeanDefinition(beanID, beanDefinition);
         }

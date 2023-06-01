@@ -10,7 +10,6 @@ import com.minis.beans.factory.exception.BeansException;
  */
 public interface BeanFactory {
     Object getBean(String beanName) throws BeansException;
-					// 原来是抛出 NoSuchBeanDefinitionException
 	// void registerBeanDefinition(BeanDefinition bd); 原来IoC1的方法
 
 	// IoC2所有新增改动如下。
