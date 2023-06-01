@@ -16,9 +16,9 @@ public class BaseBaseService {
 		System.out.println("Base Base Service says hello");
 	}
 
-	// IoC4新增init
-	public void init() {
-		System.out.println("Base Base Service init method.");
-	}
+	// IoC4新增init IoC5又去掉
+//	public void init() {
+//		System.out.println("Base Base Service init method.");
+//	}
 
 }

@@ -20,8 +20,8 @@ public class BaseService {
 		System.out.print("Base Service says hello");
 		bbs.sayHello();
 	}
-	// IoC4新增
-	public void init() {
-		System.out.print("Base Service init method.");
-	}
+	// IoC4新增 IoC5又去掉
+//	public void init() {
+//		System.out.print("Base Service init method.");
+//	}
 }
