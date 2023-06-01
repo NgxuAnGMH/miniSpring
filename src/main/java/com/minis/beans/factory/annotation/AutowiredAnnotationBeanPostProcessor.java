@@ -3,6 +3,7 @@ package com.minis.beans.factory.annotation;
 import com.minis.beans.factory.exception.BeansException;
 import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.minis.beans.factory.config.BeanPostProcessor;
+import com.minis.beans.factory.support.BeanFactory;
 
 import java.lang.reflect.Field;
 
@@ -10,13 +11,13 @@ import java.lang.reflect.Field;
  * 虽然继承了 BeanPostProcessor，但它是用来处理注解的！
  */
 public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
-	private AbstractAutowireCapableBeanFactory beanFactory;
+	private BeanFactory beanFactory;
 	
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		Object result = bean;
 		// 获取类
-		Class<?> clazz = result.getClass();
+		Class<?> clazz = bean.getClass();
 		// 获取属性
 		Field[] fields = clazz.getDeclaredFields();
 		if(fields!=null){
@@ -52,11 +53,11 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 		return null;
 	}
 
-	public AbstractAutowireCapableBeanFactory getBeanFactory() {
+	public BeanFactory getBeanFactory() {
 		return beanFactory;
 	}
 
-	public void setBeanFactory(AbstractAutowireCapableBeanFactory beanFactory) {
+	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
 
