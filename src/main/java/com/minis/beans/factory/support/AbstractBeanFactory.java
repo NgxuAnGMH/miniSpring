@@ -13,7 +13,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 抽取出来的通用抽象类
+ * 抽取出来的通用抽象类。额外自己实现的功能有：
+ * 1 refresh() 把容器中所有的 Bean 的实例创建出来
+ * 2 invokeInitMethod() 如果有配置初始化
+ * 3 createBean() 构造器注入、属性注入！
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory,BeanDefinitionRegistry{
     protected Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);

@@ -6,6 +6,7 @@ import com.minis.beans.factory.support.SingletonBeanRegistry;
 /**
  * IoC5：BeanFactory体系
  * Configurable 1 Bean的存在模式（单例/原型） 2 支持额外的Bean处理器 3 维护Bean之间的依赖关系
+ * 但这里的BeanPostProcessor，仅有 add 和 get。没有apply！
  */
 public interface ConfigurableBeanFactory extends BeanFactory, SingletonBeanRegistry {
 	// Bean的存在模式是单例还是原型。

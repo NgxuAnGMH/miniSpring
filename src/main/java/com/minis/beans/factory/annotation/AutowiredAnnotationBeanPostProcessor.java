@@ -1,7 +1,6 @@
 package com.minis.beans.factory.annotation;
 
 import com.minis.beans.factory.exception.BeansException;
-import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.minis.beans.factory.config.BeanPostProcessor;
 import com.minis.beans.factory.support.BeanFactory;
 
@@ -12,7 +11,8 @@ import java.lang.reflect.Field;
  */
 public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 	private BeanFactory beanFactory;
-	
+
+	// 初始化前完成注解的处理
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		Object result = bean;
@@ -47,6 +47,7 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 		return result;
 	}
 
+	// 初始后做额外的处理
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		// TODO Auto-generated method stub

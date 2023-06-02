@@ -3,10 +3,8 @@ package com.minis.beans.factory.support;
 import com.minis.beans.factory.exception.BeansException;
 
 /**
- * @author: cmx
- * @date: 2023/04/19
- * @classname: BeanFactory
- * 不负责区分具体 Resource
+ * 不负责区分具体 Resource。
+ * Bean工厂
  */
 public interface BeanFactory {
     Object getBean(String beanName) throws BeansException;

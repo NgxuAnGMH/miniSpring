@@ -1,7 +1,8 @@
 package com.minis.beans.factory.support;
 
 /**
- * Bean可能是单例，也因此新增单例接口，方便今后对所有（模式是单例的）Bean进行管理
+ * Bean可能是单例，也因此新增单例接口，方便今后对所有（模式是单例的）Bean进行管理。
+ * 单例Bean仓库
  */
 public interface SingletonBeanRegistry {
     // 单例注册

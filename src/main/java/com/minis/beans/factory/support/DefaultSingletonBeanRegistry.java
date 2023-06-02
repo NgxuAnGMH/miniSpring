@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认的单例：可以替换。
+ * 除了作为 SingletonBeanRegistry 外，它主要是额外补充了查询Bean依赖于被依赖问题。
+ * Field：1 注册列表 2 单例容器 3 依赖注入相关信息x2 （依赖 + 被依赖）
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     protected List<String> beanNames = new ArrayList();
@@ -17,7 +19,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     // beanName与dependentBeans（Set<>）。一个bean，对应依赖的所有Set<bean>。
     protected Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap(64);
 
-    public void registerSingleton(String beanName, Object singletonObject) {
+    @Override public void registerSingleton(String beanName, Object singletonObject) {
         /**
          * 将 singletonObjects 定义为了一个 **ConcurrentHashMap**，
          * 而且在实现 registrySingleton 时前面加了一个关键字 **synchronized**。
@@ -37,15 +39,15 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         }
     }
 
-    public Object getSingleton(String beanName) {
+    @Override public Object getSingleton(String beanName) {
         return this.singletonObjects.get(beanName);
     }
 
-    public boolean containsSingleton(String beanName) {
+    @Override public boolean containsSingleton(String beanName) {
         return this.singletonObjects.containsKey(beanName);
     }
 
-    public String[] getSingletonNames() {
+    @Override public String[] getSingletonNames() {
         return (String[]) this.beanNames.toArray();
     }
 
@@ -67,7 +69,6 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     public void registerDependentBean(String beanName, String dependentBeanName) {
         // 根据 beanName 查询 Map，得到 Set<>。
         Set<String> dependentBeans = this.dependentBeanMap.get(beanName);
-
         // 如果 dependentBeans(Set) 不为空，且已包含dependentBeanName，直接返回
         if (dependentBeans != null && dependentBeans.contains(dependentBeanName)) {
             return;

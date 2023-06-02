@@ -4,9 +4,6 @@ import com.minis.beans.factory.config.ConfigurableListableBeanFactory;
 import com.minis.beans.factory.support.BeanFactory;
 import com.minis.beans.factory.exception.BeansException;
 import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-
-import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
-
 import com.minis.beans.factory.config.BeanFactoryPostProcessor;
 import com.minis.beans.factory.support.DefaultListableBeanFactory;
 import com.minis.beans.factory.xml.XmlBeanDefinitionReader;
@@ -73,6 +70,7 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext{
 	}
 
 	void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
+		// 这里对bf，装配注解处理器
 		this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
 	}
 

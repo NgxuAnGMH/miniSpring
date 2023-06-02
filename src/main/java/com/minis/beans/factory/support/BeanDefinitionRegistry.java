@@ -7,6 +7,8 @@ import com.minis.beans.factory.config.BeanDefinition;
  * 实现该接口的类就像是一个存放 BeanDefinition 的仓库，
  * 可以操作：存放、移除、获取及判断 BeanDefinition 对象。
  * 注意：register注册方法，现在分配到了这个接口中。(原本是BeanFactory.java)
+ * 这里强调的是BeanDefinition仓库管理操作，和Listable集合无关！
+ * 返回值有void、BeanDefinition、boolean。
  */
 public interface BeanDefinitionRegistry {
     // 注册
@@ -15,7 +17,7 @@ public interface BeanDefinitionRegistry {
     // 删除
     void removeBeanDefinition(String name);
 
-    // 获取
+    // 获取 Bean 的定义、而非数量
     BeanDefinition getBeanDefinition(String name);
 
     // 判断是否已注册

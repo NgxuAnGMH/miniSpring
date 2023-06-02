@@ -1,7 +1,6 @@
 package com.minis.beans.factory.config;
 
 import com.minis.beans.factory.exception.BeansException;
-import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.minis.beans.factory.support.AbstractBeanFactory;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.List;
 /**
  * 继承了AbstractBeanFactory，但没有重写任何一个方法。
  * 意思是：它的重点在于提供额外的Bean处理器增强！
+ * 最大特点提供成员：List<BeanPostProcessor> beanPostProcessors
  */
 public abstract class AbstractAutowireCapableBeanFactory
 		extends AbstractBeanFactory implements AutowireCapableBeanFactory{
