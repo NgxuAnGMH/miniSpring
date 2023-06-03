@@ -2,15 +2,23 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID">
   <servlet>
     <servlet-name>minisMVC</servlet-name>
+<!--    <servlet-class>com.minis.web.DispatcherServlet0</servlet-class>-->
     <servlet-class>com.minis.web.DispatcherServlet</servlet-class>
+    <!--Servlet-class：指定对应类，也是Web程序核心代码-->
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value> /WEB-INF/minisMVC-servlet.xml </param-value>
+      <param-value>/WEB-INF/minisMVC-servlet.xml</param-value>
+      <!--Param-value：初始化配置文件地址，引入所有的配置参数
+      因此，为了启动这个 servlet，我们要提前解析 minisMVC-servlet.xml 文件。-->
     </init-param>
     <load-on-startup>1</load-on-startup>
+    <!--大于等于0时，容器启动时加载该Servlet，且值越小启动优先级越高。
+    如果为负数，则容器启动时不会加载该Servlet。-->
   </servlet>
   <servlet-mapping>
     <servlet-name>minisMVC</servlet-name>
+    <!--表示用<servlet>标签中配置的Servlet进行URL请求拦截与映射匹配-->
     <url-pattern>/</url-pattern>
+    <!--标签为“/”，表示拦截所有URL-->
   </servlet-mapping>
 </web-app>

@@ -16,16 +16,17 @@ public class XmlScanComponentHelper {
 	        SAXReader saxReader=new SAXReader();
 			Document document = null;
 			try {
-				document = saxReader.read(xmlPath);
+				document = saxReader.read(xmlPath);  //加载配置文件
 			} catch (DocumentException e) {
 				e.printStackTrace();
 			}
 	        Element root = document.getRootElement();
 	        Iterator it = root.elementIterator();
 
-	        while (it.hasNext()) {
+	        while (it.hasNext()) { //得到XML中所有的base-package节点
 	            Element element = (Element) it.next();
 	            	packages.add(element.attributeValue("base-package"));
+					// <component-scan base-package="com.minis.test"/>
 	        }
 	        
 	        return packages;

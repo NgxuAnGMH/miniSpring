@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <components>
-<component-scan base-package="com.minis.test"/>
+    <component-scan base-package="com.minis.test"/>
 </components>
+
+
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<beans>-->
+<!--    <bean id="/helloworld" class="com.minis.test.HelloWorldBean0" value="doGet"/>-->
+<!--    &lt;!&ndash;很熟悉的 Bean 配置，只是把 id 设置成了一个 URL 的形式，来匹配后端的程序，-->
+<!--    访问 /helloworld 的时候，对应调用 HelloWorldBean 类里的 doGet() 方法&ndash;&gt;-->
+<!--    &lt;!&ndash;  id = uri        class = clz       value = method  &ndash;&gt;-->
+<!--</beans>-->
